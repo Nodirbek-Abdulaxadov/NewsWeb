@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IndexViewModel
+
+<div class="container d-flex justify-content-center">
+            <a asp-controller="home" asp-action="categoryfilter" asp-route-name="All" class="btn btn-outline-primary mx-1" style="width: 100px;">All</a>
+            @foreach (var category in Model.Categories)
+            {
+                  <a asp-controller="home" asp-action="categoryfilter" asp-route-name="@category.Name" class="btn btn-outline-primary mx-1" style="width: 100px;">@category.Name</a>
+            }
+        </div>
+        <hr />
+
+        <div class="custom-cards">
+
+            @foreach (var news in Model.News)
+            {
+                <div class="card m-1 d-inline" style="width: 27%;">
+                    <img src="~/images/@news.ImagePath" class="card-img-top" style="height: 15rem;"
+                        asp-append-version="true" alt="logo" />
+                    <div class="card-body custom-card">
+                        <h5 class="card-title">@news.Title</h5>
+                        <p class="card-text"><small class="text-muted">@news.PostedDate</small></p>
+                        @{
+                            string body = news.Body.Length < 60 ? news.Body : news.Body.Substring(0, 60);
+                        }
+                        <p class="card-text">@body . . .</p>
+                        <a asp-controller="home" asp-action="detail" asp-route-id="@news.Id" class="btn btn-primary"><i class="las la-angle-double-right"></i>
+                            Read More</a>
+                    </div>
+                </div>
+            }
+
+        </div>

@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "News Page";
+}
+
+@model List<News>
+@inject ICategoryInterface categoryInterface
+
+<h2>All news</h2>
+<div class="d-flex w-100 justify-content-end">
+    <a asp-controller="news" asp-action="add" class="btn btn-success">+ Add new</a>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">PostedDate</th>
+      <th scope="col">Category</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+          <td style="width: 400px;">@item.Title</td>
+          <td>@item.PostedDate</td>
+          <td>@categoryInterface.GetCategoryById(@item.CategoryId).Name</td>
+          <td>
+              <div>
+                  <a class="btn btn-primary" style="width: 100px;">Edit</a>
+                  <a asp-controller="news" asp-action="delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure delete this news?');" class="btn btn-danger" style="width: 100px;">Delete</a>
+              </div>
+          </td>
+        </tr>
+    }
+  </tbody>
+</table>
